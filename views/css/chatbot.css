@@ -1,6 +1,66 @@
 *{
     margin: 0;
     padding: 0;
-    background-color: lightsalmon;
-    font-family: roboto;
+    /* background-color: lightssalmon; */
+    font-family: 'montserrat', 'sans-serif';
 }
+body{
+    overflow: hidden;
+    width: 100%;
+}
+.chatbot{
+    bottom: -420px;
+    /* bottom: 0; */
+    right: 40px;
+    position: fixed;
+    width: 350px;
+    height: 470px;
+
+    background: url('/resources/background.png');
+    background-size: 120%;
+    box-shadow: 0 -4px 8px 3px rgba(0, 0, 0, 0.2), 0 -10px 20px 10px rgba(0, 0, 0, 0.19);
+
+}
+.chatbot-header{
+    width: 100%;
+    height: 50px;
+    background-color:#162443;
+    border-radius: 5px 5px 0 0;
+    box-sizing: border-box;
+    padding: 5px;
+    line-height: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+#logo{
+    height: 47px;
+    padding-left: 10px;
+    float: left;
+}
+
+.chatbot-header svg{
+    margin-left: 15px;
+}
+.chatbot-header h3{
+    color: whitesmoke;
+    margin-left: 10px;
+    float: left;
+}
+.chatbot-header i{
+    float: right;
+    right: 0;
+    color: white;
+    margin-left: 35px;
+}
+.chat-content{
+    width: 100%;
+    height: 420px;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: scroll;
+}
+
+.chat-content::-webkit-scrollbar {
+    display: none;
+  }

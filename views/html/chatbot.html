@@ -4,9 +4,69 @@
         <title>Somaiya Admission Helper Bot</title>
         <link rel="stylesheet" type="text/css" href="css/chatbot.css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script type="text/javascript" src="scripts/jquery.js"></script>
     </head>
     <body>
-        CHATBOT MAIN
+        <div class="chatbot">
+            <div class="chatbot-header">
+                
+                <img id="logo" src="resources/somaiya_logo.svg">
+                <svg width="14" height="14">
+                        <circle cx="7" cy="7" r="7" fill ='#05b714'/>
+                    </svg>
+                <h3> Ask Me Anything</h3>
+                <i id="arrow" class="material-icons" style="font-size:36px">expand_less</i>
+
+            </div>
+            <div class="chat-content">
+                
+            </div>
+        </div>
+        <script type="text/javascript">
+            var chatboxOpen = false;
+            $('#arrow').click(()=>{
+                
+                if(!chatboxOpen){
+                    $('.chatbot').animate({
+                        bottom: "0px"
+                    },{
+                        duration: 600,
+                        queue: false
+                    });
+                    $('#arrow').animate(
+                        { deg: 180 },
+                        {
+                            duration: 1200,
+                            step: function(now) {
+                                $(this).css({ transform: 'rotate(' + 180 + 'deg)' });
+                            }
+                        }
+                    );
+                    chatboxOpen = true;
+                }else{
+                    $('.chatbot').animate({
+                        bottom: "-420px"
+                    },{
+                        duration: 600,
+                        queue: false
+                    });
+                    $('#arrow').animate(
+                        { deg: 0 },
+                        {
+                            duration: 1200,
+                            step: function(now) {
+                                $(this).css({ transform: 'rotate(' + 0 + 'deg)' });
+                            }
+                        }
+                    );
+                    chatboxOpen = false;
+                }
+            });            
+            
+        </script>
+
     </body>
     
 </html>
