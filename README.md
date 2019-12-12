@@ -15,5 +15,7 @@ click go
 
 go to project base directory
 
-run node index.js
+run the following commad from terminal
+
+npm run start
 
