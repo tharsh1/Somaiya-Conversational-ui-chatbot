@@ -19,3 +19,4 @@ run the following commad from terminal
 
 npm run start
 
+Go to localhost:3000 from your browser
