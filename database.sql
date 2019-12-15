@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2019 at 06:14 PM
+-- Generation Time: Dec 15, 2019 at 06:59 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -34,6 +34,18 @@ CREATE TABLE `answers` (
   `answer` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `optionid`, `answer`) VALUES
+(1, 1, 'The various courses Offered are:<br>1)Computer Engineering<br>2)IT'),
+(2, 2, 'The various courses Offered are:<br>1)M.Tech in Computer Engineering<br>2)M.tech in IT'),
+(3, 3, 'The various courses Offered are:<br>1)PHD in Computer Engineering<br>2)PHD in IT'),
+(4, 9, 'Rs. 1,72,000/-'),
+(5, 10, 'Rs. 25,000/-'),
+(6, 11, 'Rs. 97,000/-');
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +59,24 @@ CREATE TABLE `options` (
   `next_question` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `options`
+--
+
+INSERT INTO `options` (`id`, `option_name`, `for_question`, `next_question`) VALUES
+(1, 'UG', 2, NULL),
+(2, 'PG', 2, NULL),
+(3, 'PHD', 2, NULL),
+(4, 'Courses', 1, 2),
+(5, 'Fees', 1, 4),
+(6, 'UG', 4, 3),
+(7, 'PG', 4, 3),
+(8, 'PHD', 4, 3),
+(9, 'OPEN', 3, NULL),
+(10, 'SC/ST', 3, NULL),
+(11, 'OBC', 3, NULL),
+(12, 'Not Listed', 1, -11);
+
 -- --------------------------------------------------------
 
 --
@@ -57,6 +87,16 @@ CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
   `question` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`id`, `question`) VALUES
+(1, 'Hello, I am SAHEB<br>How May I Help You.'),
+(2, 'Which Level of Courses are you Looking For?'),
+(3, 'What category do you belong to?'),
+(4, 'Fees for what type of course?');
 
 --
 -- Indexes for dumped tables
@@ -89,19 +129,19 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
