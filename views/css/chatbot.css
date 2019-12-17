@@ -73,7 +73,7 @@ body{
     width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
-    padding: 0 10px;s
+    padding: 0 10px;
     /* background-color: red; */
 }
 .options::-webkit-scrollbar {
@@ -112,7 +112,35 @@ body{
       color: antiquewhite;
       clear: both;
   }
-  
+
+  .other{
+    clear: both;
+    width: 80%;
+    height: 35px;
+    margin: auto 0;
+    background-color:whitesmoke;
+    float: left;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    padding-left: 10px;
+    font-size: 18px;
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  .send{
+    margin-left: 5px;
+    /* margin-top: 10px; */
+    height: 35px;
+    width: 35px;
+    color: antiquewhite;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    background-color: #162443;
+    float: left;
+    
+  }
 
   .optionbtn{
     height: 35px;
@@ -125,4 +153,10 @@ body{
     color: antiquewhite;
     outline: none;
   }
+
+  .optionbtn:disabled{
+    color: #204699;
+    background-color: antiquewhite;
+  }
+  
   

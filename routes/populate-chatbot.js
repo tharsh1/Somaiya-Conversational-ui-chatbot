@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const path = require('path');
 const chatController = require('../controllers/chat_db_funcs');
+const emailController = require('../controllers/Email');
 var bodyParser = require('body-parser');
 
 router.use(bodyParser.json()); 
@@ -45,6 +46,17 @@ router.post('/answer' , (req,res)=>{
     });
     result.catch((err)=>{
         console.log('answer');
+    })
+});
+
+router.post('/send_email' , (req,res)=>{
+    var result = emailController.sendEmail(req.body.question , req.body.email);
+    result.then(()=>{
+        res.send('sent');
+    });
+
+    result.catch((error)=>{
+        res.send('error');
     })
 });
 
