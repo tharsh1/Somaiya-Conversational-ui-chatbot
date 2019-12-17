@@ -4,8 +4,51 @@
         <title>Somaiya Admission Helper Bot</title>
         <link rel="stylesheet" type="text/css" href="css/admin_dash.css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <script type="text/javascript" src="scripts/jquery.js"></script>
     </head>
     <body>
-        DASH MAIN
+        <div id="question-menu" class="menu">
+            <ul>
+                <li>Add option</li>
+                <li>Delete Question</li>
+                <li>Edit Question</li>
+            </ul>
+        </div>
+        <div id="option-menu" class = 'menu'>
+            <ul>
+                <li>Delete option</li>
+                <li>Edit option</li>
+                <li>Add Question</li>
+                <li>Add Answer</li>
+            </ul>
+        </div>
+        <div id="delete-question-popup" class="popup">
+            <img src="resources/cancel.svg" width="30px" height="30px" alt="">
+            <p>Are you sure you want to delete this question</p>
+            <button class="yes"> yes</button>
+            <button class="no">No</button>
+        </div>
+        <div id="delete-option-popup" class="popup">
+            <img src="resources/cancel.svg" width="30px" height="30px" alt="">
+            <p>Are you sure you want to delete this option</p>
+            <button class="yes"> yes</button>
+            <button class="no">No</button>
+        </div>
+        
+        <div id="header">
+            <h3>SAHEB Internal Admin Panel</h3>
+            <img src="resources/Somaiya_logo.svg" alt="">
+        </div>
+        <div id="content">
+            <div class="question-container">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad consectetur </p>
+            </div>
+            <div class="option-container">
+                <div class="option">lorem ipsum</div>
+                <div class="option">lorem ipsum</div>
+                <div class="option">lorem ipsum</div>
+            </div>
+        </div>
+        <script type="text/javascript" src="scripts/admin-panel-ui.js"></script>
     </body>
 </html>
