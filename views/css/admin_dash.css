@@ -86,6 +86,7 @@
     margin-right:30px;
     border-radius: 30px;
     text-align: center ;
+    cursor: pointer;
 }
 .option-container::before{
     content: 'Options';
@@ -121,6 +122,11 @@
     border-top: 1px solid #eee;
     border-bottom: 1px solid#eee;
      /* color: rgb(82, 80, 80); */
+     transition:300ms;
+     cursor: pointer;
+}
+.menu ul li:hover{
+    background-color: #ccc;
 }
 .popup{
     margin: 10px auto;
@@ -154,6 +160,21 @@
     border-radius: 10px;
     /* font-weight: lighter; */
 }
+.textbox{
+    width: 80%;
+    height: 35px;
+    margin-top: 20px;
+    font-size: 22px;
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    padding-left: 10px;
+    outline: none;
+}
+.error{
+    color: #dc3545;
+    font-size: 12px;
+}
 .yes{
     background-color: #28a745;
 }
@@ -162,6 +183,6 @@
     margin-left: 20px;
 }
 
-#delete-question-popup , #delete-option-popup{
+#delete-question-popup , #delete-option-popup , #edit-question-popup,#add-option-popup,#edit-option-popup,#add-question-popup,#add-answer-popup{
     display: none;
 }
