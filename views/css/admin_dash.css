@@ -30,13 +30,15 @@
 }
 #content{
     width: 70%;
-    height: 75vh;
+    /* height: 75vh; */
     background-color: rgb(245, 245, 245);
     border: 1px solid #cacaca;
     border-radius: 30px;
     padding: 20px;
     box-sizing: border-box;
     margin: 0 auto;
+    /* overflow-y: scroll; */
+    overflow-x: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .question-container{

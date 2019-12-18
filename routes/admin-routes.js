@@ -14,24 +14,20 @@ router.get("/",(req,res)=>{
 
 router.post('/get_question_data', (req,res)=>{
     // console.log(req.body.id);
-    this.response = {};
+    
     adminController.get_question(req.body.id)
-    .then((data)=>{
-        this.response['question'] = data[0];
+    .then((question)=>{
+        adminController.get_options(req.body.id)
+        .then((options)=>{
+            res.send({'question':question[0] , 'options':options});
+        })
+        .catch((error)=>{
+
+        });
     })
     .catch((error)=>{
         console.log(error);
     });
-
-    adminController.get_options(req.body.id)
-    .then((data)=>{
-        this.response['options'] = data;
-    })
-    .catch((error)=>{
-        console.log(error);
-    })
-
-    console.log(response);
 });
 
 module.exports = router;
