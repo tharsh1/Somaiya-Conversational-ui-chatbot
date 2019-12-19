@@ -30,4 +30,18 @@ router.post('/get_question_data', (req,res)=>{
     });
 });
 
+router.post('/get_answer' , (req,res)=>{
+    console.log(req.body.option);
+    var result = adminController.get_answer(req.body.option);
+    result.then((data)=>{
+        console.log(data);
+        res.send(data);
+    });
+    result.catch((err)=>{
+        console.log('answer');
+    })
+});
+
+
+
 module.exports = router;

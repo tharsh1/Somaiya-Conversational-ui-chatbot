@@ -21,13 +21,33 @@ $(document).bind("mousedown", function (e) {
     
 });
 
-$('body').on('contextmenu','.option',function(e){
+$('body').on('contextmenu','.answer-container',function(e){
     e.preventDefault();
-    $('#option-menu').css({
+    $('#answer-menu').css({
         top: e.pageY + "px",
         left: e.pageX + "px"
     }).fadeIn(300);
-    currOption =$(this); 
+    currQuestion = $(this);
+});
+
+$(document).bind("mousedown", function (e) {
+        if($(e.target).parents("#answer-menu").length==0)
+            $("#answer-menu").fadeOut(200);
+    
+});
+
+$('body').on('contextmenu','.option',function(e){
+    e.preventDefault();
+    if($(this).data('meta-data').next_question != -11){
+        $('#option-menu').css({
+            top: e.pageY + "px",
+            left: e.pageX + "px"
+        }).fadeIn(300);
+        currOption =$(this); 
+    }else{
+        alert('This is the default option. Please do not alter this');
+    }
+    
 });
 $(document).bind("mousedown", function (e) {
         if($(e.target).parents("#option-menu").length==0)
@@ -65,6 +85,14 @@ $('.menu ul li').click(function(){
     }
     else if(action == 'Edit option' && !popupActive){
         $('#edit-option-popup').fadeIn(200);
+        popupActive = true;
+    }
+    else if(action == 'Edit Answer' && !popupActive){
+        $('#edit-answer-popup').fadeIn(200);
+        popupActive = true;
+    }
+    else if(action == 'Delete Answer' && !popupActive){
+        $('#delete-answer-popup').fadeIn(200);
         popupActive = true;
     }
     else{
