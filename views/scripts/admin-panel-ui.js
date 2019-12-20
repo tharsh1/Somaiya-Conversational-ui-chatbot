@@ -122,3 +122,7 @@ $('.textbox').blur(function(){
     }
 });
 
+$('#edit-question-popup .yes').click(function(){
+    console.log(currQuestion)
+})
+

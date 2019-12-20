@@ -5,6 +5,10 @@ $(document).ready(function(){
         // console.log(data);
         $('.question-container p').html(data.question.question);
         $('.question-container').data('question_id',data.question.id);
+        
+        if(data.options.length > 4){
+            $('.option-container').css({justifyContent:'flex-start'});
+        }
         data.options.forEach(option => {
             var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
             optiondiv.data('meta-data',option);
@@ -18,16 +22,15 @@ $(document).ready(function(){
     },1000);
 });
 
-//replace the data if option of same question is clicked
-//continue with path where the next_question is null and display the final answer for the route
+
 $('body').on('click','.option',function(){
     
     $(this).siblings().removeClass('active');
     $(this).parent().nextAll().remove();
     var meta = $(this).data('meta-data');
-    console.log(meta);
+    // console.log(meta);
     var nextQuestion = meta.next_question;
-    console.log(nextQuestion != null && nextQuestion != -11)
+    // console.log(nextQuestion != null && nextQuestion != -11)
     if(nextQuestion != null && nextQuestion != -11){
         $(this).addClass('active');
         $.post('/admin/get_question_data',{id:nextQuestion}, function(data){
@@ -47,9 +50,16 @@ $('body').on('click','.option',function(){
     else if(nextQuestion == null){
         $(this).addClass('active');
         $.post('/admin/get_answer',{option:meta.option_name},function(response){
-            var answerContainer = $("<div class='answer-container'<p>"+response[0].answer+"</p></div>");
-            answerContainer.data('answer_id',response[0].id);
-            $('#content').append(answerContainer);
+            console.log(response);
+            if(response.length != 0){
+                var answerContainer = $("<div class='answer-container'<p>"+response[0].answer+"</p></div>");
+                answerContainer.data('answer_id',response[0].id);
+                $('#content').append(answerContainer);
+            }else{
+                console.log('sfg');
+                $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
+            }
+            
         });
     }
     
