@@ -56,8 +56,8 @@ $('.options').on('click','.optionbtn',function(){
                 msgrcd.hide();
                 $('.chat-content').append(msgrcd);
                 msgrcd.fadeIn(400);
-                $('.chat-content').animate({
-                    scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                $('.chat').animate({
+                    scrollTop: $('.chat')[0].scrollHeight}, "slow");
                 $('.optionbtn').fadeOut(400);
                 $('options').empty();
                 $.post('/chat/get_options',{'next_options':data.id},function(data){
@@ -80,9 +80,9 @@ $('.options').on('click','.optionbtn',function(){
             textBox.delay(400).fadeIn(400);
             textBoxDisplayed = true;
         }
-        $('.chat-content').animate({
-            scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
-        $(this).prop('disabled',true);
+        $('.chat').animate({
+            scrollTop: $('.chat')[0].scrollHeight}, "slow");
+        $(this).parent().children().remove()
         
     }else{
         // console.log('hey');
@@ -91,8 +91,8 @@ $('.options').on('click','.optionbtn',function(){
             msgrcd.hide();
             $('.chat-content').append(msgrcd);
             msgrcd.delay(400).fadeIn(400);
-            $('.chat-content').animate({
-                scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+            $('.chat').animate({
+                scrollTop: $('.chat')[0].scrollHeight}, "slow");
             $('.optionbtn').fadeOut(400);
             $('options').empty();
             setTimeout(()=>{
@@ -123,16 +123,16 @@ $('.chat-content').on('click','.send',function(){
                     textBoxDisplayed = false;
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat-content').animate({
-                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                    $('.chat').animate({
+                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
                 $.post('/chat/next_question',{'next_question':1},function(data){
     
                     var msgrcd = $("<div class ='message-received'>"+data.question+"</div>");
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat-content').animate({
-                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                    $('.chat').animate({
+                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
                     $('.optionbtn').fadeOut(400);
                     $('options').empty();
                     $.post('/chat/get_options',{'next_options':data.id},function(data){
