@@ -65,8 +65,3 @@ $('body').on('click','.option',function(){
     
 });
 
-
-$('body').on('click','.question-container',function(){
-    console.log($(this).data('question_id'));
-});
-

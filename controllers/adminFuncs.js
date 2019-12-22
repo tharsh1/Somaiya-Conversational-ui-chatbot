@@ -1,7 +1,10 @@
 const connectionPool = require('../config/database-connection');
-var get_question_query = 'select * from questions where id=?';
-var get_options_query = 'select * from options where for_question=?';
-var get_answer_query = 'select answers.id, answers.answer from answers join options where answers.optionid = options.id and options.option_name = ?';
+const get_question_query = 'select * from questions where id=?';
+const get_options_query = 'select * from options where for_question=?';
+const get_answer_query = 'select answers.id, answers.answer from answers join options where answers.optionid = options.id and options.option_name = ?';
+const updateQuestionQuery = 'update questions set question = ? where id = ?';
+const updateAnswerQuery = 'update options set option_name = ? where id = ?';
+
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
@@ -57,10 +60,42 @@ var get_answer = (option)=>{
     });
 }
 
+var updateQuetion = (id,value)=>{
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('error in conecting to DB');
+            }
+            conn.query(updateQuestionQuery,[value,id],(err,results,fields)=>{
+                if(err){
+                    reject('could not update the question');
+                }
+                resolve(results);
+            });
+        });
+    });
+};
 
+var updateOption = (id,value)=>{
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('error in connecting to DB');
+            }
+            conn.query(updateAnswerQuery , [value,id],(err,results,fields)=>{
+                if(err){
+                    reject('could not update the option');
+                }
+                resolve();
+            });
+        });
+    });
+}
 
 
 
 module.exports.get_question = get_question;
 module.exports.get_options = get_options;
-module.exports.get_answer = get_answer
+module.exports.get_answer = get_answer;
+module.exports.updateQuestion = updateQuetion;
+module.exports.updateOption = updateOption;

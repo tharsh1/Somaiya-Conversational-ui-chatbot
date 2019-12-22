@@ -68,6 +68,8 @@ $('.menu ul li').click(function(){
         popupActive = true;
     }
     else if(action == 'Edit Question' && !popupActive){
+        console.log()
+        $('#edit-question-popup textarea').val(currQuestion.children('p').html().replace('<br>',"\n"))
         $('#edit-question-popup').fadeIn(200);
         popupActive = true;
     }
@@ -84,6 +86,7 @@ $('.menu ul li').click(function(){
         popupActive = true;
     }
     else if(action == 'Edit option' && !popupActive){
+        $('#edit-option-popup input').val(currOption.text())
         $('#edit-option-popup').fadeIn(200);
         popupActive = true;
     }
@@ -99,7 +102,6 @@ $('.menu ul li').click(function(){
         alert('please perform a task on the active popup')
     }
 });
-
 $('.popup img').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
@@ -123,6 +125,24 @@ $('.textbox').blur(function(){
 });
 
 $('#edit-question-popup .yes').click(function(){
-    console.log(currQuestion)
-})
+    var newQuestion = $(this).parent().children('textarea').val().replace('\n','<br/>');
+    currQuestion.children('p').html(newQuestion);
+    $(this).parent().fadeOut(200);
+    popupActive = false;
+    const questionId = currQuestion.data().question_id;
+    $.post('/admin/update_question',{id:questionId,value:newQuestion},function(response){
+        console.log(response);
+    });
+});
+
+$('#edit-option-popup .yes').click(function(){
+    const newOption = $(this).siblings('input').val();
+    $(this).parent().fadeOut(200);
+    currOption.html(newOption);
+    popupActive = false;
+    const optionId = currOption.data().metaData.id;
+    $.post('/admin/update_option' , {id:optionId,value:newOption} , function(response){
+        console.log(response);
+    });
+});
 

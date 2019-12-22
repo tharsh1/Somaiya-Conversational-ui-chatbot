@@ -171,6 +171,10 @@
     padding-left: 10px;
     outline: none;
 }
+
+.textbox::-webkit-scrollbar{
+    display: none;
+}
 .error{
     color: #dc3545;
     font-size: 12px;

@@ -42,6 +42,28 @@ router.post('/get_answer' , (req,res)=>{
     })
 });
 
+router.post('/update_question' , (req,res)=>{
+    var result = adminController.updateQuestion(req.body.id,req.body.value);
+    result.then((data)=>{
+        res.send({status:1});
+    })
+    .catch((error)=>{
+        res.send({status:0,message:error})
+    })
+})
 
+
+router.post('/update_option' , (req , res)=>{
+    adminController.updateOption(req.body.id , req.body.value)
+    .then(()=>{
+        res.send({status:1});
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        });
+    })
+});
 
 module.exports = router;
