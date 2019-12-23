@@ -50,6 +50,16 @@ router.post('/update_question' , (req,res)=>{
     .catch((error)=>{
         res.send({status:0,message:error})
     })
+});
+
+router.post('/update_answer' , (req,res)=>{
+    var result = adminController.updateAnswer(req.body.id,req.body.value);
+    result.then((data)=>{
+        res.send({status:1});
+    })
+    .catch((error)=>{
+        res.send({status:0,message:error})
+    })
 })
 
 

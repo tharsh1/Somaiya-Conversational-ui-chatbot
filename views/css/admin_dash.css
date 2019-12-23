@@ -216,6 +216,12 @@
 .answer-container p{
     float: left;
 }
+#edit-answer-popup textarea{
+    min-width: 95%;
+    max-width: 95%;
+    min-height: 90px;
+    max-height: 200px;
+}
 
 .incomplete{
     margin: 20px 0;

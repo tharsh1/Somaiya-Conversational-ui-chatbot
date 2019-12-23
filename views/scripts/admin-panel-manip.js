@@ -51,7 +51,7 @@ $('body').on('click','.option',function(){
         $.post('/admin/get_answer',{option:meta.option_name},function(response){
             console.log(response);
             if(response.length != 0){
-                var answerContainer = $("<div class='answer-container'<p>"+response[0].answer+"</p></div>");
+                var answerContainer = $("<div class='answer-container'><p>"+response[0].answer+"</p></div>");
                 answerContainer.data('answer_id',response[0].id);
                 $('#content').append(answerContainer);
             }

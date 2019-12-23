@@ -2,6 +2,7 @@ var popupActive = false;
 var textboxEmpty= false;
 var currQuestion = null;
 var currOption = null;
+var currAnswer = null;
 $(document).contextmenu(function(e){
     e.preventDefault();
 });
@@ -26,7 +27,7 @@ $('body').on('contextmenu','.answer-container',function(e){
         top: e.pageY + "px",
         left: e.pageX + "px"
     }).fadeIn(300);
-    currQuestion = $(this);
+    currAnswer = $(this);
 });
 
 $(document).bind("mousedown", function (e) {
@@ -112,6 +113,8 @@ $('.menu ul li').click(function(e){
         popupActive = true;
     }
     else if(action == 'Edit Answer' && !popupActive){
+        console.log(currAnswer);
+        $('#edit-answer-popup textarea').val(currAnswer.children('p').html().replace(/<br>/g,"\n"))
         $('#edit-answer-popup').fadeIn(200);
         popupActive = true;
     }
@@ -161,6 +164,18 @@ $('#edit-question-popup .yes').click(function(){
     });
 });
 
+$('#edit-answer-popup .yes').click(function(){
+    var newAnswer = $(this).parent().children('textarea').val().replace(/\n/g,'<br/>');
+    currAnswer.children('p').html(newAnswer);
+    $(this).parent().fadeOut(200);
+    popupActive = false;
+    // console.log(currAnswer.data());
+    const answerID = currAnswer.data().answer_id;
+    $.post('/admin/update_answer',{id:answerID,value:newAnswer},function(response){
+        console.log(response);
+    });
+});
+
 $('#edit-option-popup .yes').click(function(){
     const newOption = $(this).siblings('input').val();
     $(this).parent().fadeOut(200);
@@ -171,4 +186,3 @@ $('#edit-option-popup .yes').click(function(){
         console.log(response);
     });
 });
-
