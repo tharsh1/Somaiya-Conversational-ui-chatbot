@@ -231,3 +231,10 @@
     width: 100%;
     font-size: 20px;
 }
+
+.menu-item--disabled{
+    color: #aaa;
+    /* cursor: not-allowed; */
+    pointer-events: none;
+}
+

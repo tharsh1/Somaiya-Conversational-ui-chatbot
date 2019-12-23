@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
     $.post('/admin/get_question_data',{id:1}, function(data){
         // console.log(data);
@@ -31,7 +29,7 @@ $('body').on('click','.option',function(){
     // console.log(meta);
     var nextQuestion = meta.next_question;
     // console.log(nextQuestion != null && nextQuestion != -11)
-    if(nextQuestion != null && nextQuestion != -11){
+    if(nextQuestion != null && nextQuestion != -11 && nextQuestion != -1){
         $(this).addClass('active');
         $.post('/admin/get_question_data',{id:nextQuestion}, function(data){
             var questionContainer = $("<div class='question-container'><p>"+data.question.question+"</p></div>");
@@ -49,18 +47,20 @@ $('body').on('click','.option',function(){
     }
     else if(nextQuestion == null){
         $(this).addClass('active');
+        $(this).data('hasAnswer',true);
         $.post('/admin/get_answer',{option:meta.option_name},function(response){
             console.log(response);
             if(response.length != 0){
                 var answerContainer = $("<div class='answer-container'<p>"+response[0].answer+"</p></div>");
                 answerContainer.data('answer_id',response[0].id);
                 $('#content').append(answerContainer);
-            }else{
-                console.log('sfg');
-                $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
             }
             
         });
+    }
+    else{
+        if(nextQuestion != -11)
+            $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
     }
     
 });

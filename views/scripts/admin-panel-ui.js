@@ -14,7 +14,6 @@ $('body').on('contextmenu','.question-container',function(e){
     }).fadeIn(300);
     currQuestion = $(this);
 });
-
 $(document).bind("mousedown", function (e) {
         if($(e.target).parents("#question-menu").length==0)
             $("#question-menu").fadeOut(200);
@@ -38,23 +37,45 @@ $(document).bind("mousedown", function (e) {
 
 $('body').on('contextmenu','.option',function(e){
     e.preventDefault();
-    if($(this).data('meta-data').next_question != -11){
+    const meta = $(this).data('meta-data');
+    console.log(meta);
+    if(meta.next_question != -11 ){
+        if($(this).data('hasAnswer') || meta.next_question != -1){
+            $('#option-menu ul li').eq(3).addClass('menu-item--disabled')
+            $('#option-menu ul li').eq(2).addClass('menu-item--disabled')
+
+        }
+        else{
+            $('#option-menu ul li').eq(2).removeClass('menu-item--disabled')
+            $('#option-menu ul li').eq(3).removeClass('menu-item--disabled')
+
+        }
+    
+
+        // if(){
+
+        //     $('#option-menu ul li').eq(2).addClass('menu-item--disabled')
+        // }
+        // else{
+        //     $('#option-menu ul li').eq(2).removeClass('menu-item--disabled')
+        // }
+        
         $('#option-menu').css({
             top: e.pageY + "px",
             left: e.pageX + "px"
         }).fadeIn(300);
+        // $('#option-menu ul li').eq(2).addClass('menu-item--disabled')
         currOption =$(this); 
     }else{
         alert('This is the default option. Please do not alter this');
     }
-    
 });
 $(document).bind("mousedown", function (e) {
         if($(e.target).parents("#option-menu").length==0)
             $("#option-menu").fadeOut(200);
     
 });
-$('.menu ul li').click(function(){
+$('.menu ul li').click(function(e){
     // console.log($(this).parent().parent());
     action = $(this).text();
     // console.log(action)
@@ -102,6 +123,11 @@ $('.menu ul li').click(function(){
         alert('please perform a task on the active popup')
     }
 });
+
+$('.menu-item--disabled').click(function(e){
+    console.log(this);
+    e.preventDefault();
+})
 $('.popup img').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
