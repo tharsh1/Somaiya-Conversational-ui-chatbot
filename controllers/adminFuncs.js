@@ -5,6 +5,7 @@ const get_answer_query = 'select answers.id, answers.answer from answers join op
 const updateQuestionQuery = 'update questions set question = ? where id = ?';
 const updateOptionQuery = 'update options set option_name = ? where id = ?';
 const updateAnswerQuery = 'update answers set answer = ? where id = ?'
+const addOptionQuery = 'insert into options(option_name,for_question,next_question) values(? , ? , ?)';
 
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
@@ -109,6 +110,27 @@ var updateOption = (id,value)=>{
     });
 }
 
+var addOption = (optionName , forQuestion) => {
+    return new Promise((resolve , reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('Error in connecting to DB');
+            }
+            conn.query(addOptionQuery , [optionName , forQuestion , -1] , (err,results,fields)=>{
+                if(err){
+                    reject('could not insert the option');
+                }
+                conn.query('select * from options where id = ?' ,results.insertId , (err,res,fields)=>{
+                    if(err){
+                        reject('could not make the view consistent');
+                    }
+                    resolve(res[0]);
+                });
+            });
+        });
+    });
+};
+
 
 
 module.exports.get_question = get_question;
@@ -117,3 +139,4 @@ module.exports.get_answer = get_answer;
 module.exports.updateQuestion = updateQuestion;
 module.exports.updateOption = updateOption;
 module.exports.updateAnswer = updateAnswer;
+module.exports.addOption = addOption;

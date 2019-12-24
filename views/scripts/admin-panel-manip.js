@@ -5,7 +5,10 @@ $(document).ready(function(){
         $('.question-container').data('question_id',data.question.id);
         
         if(data.options.length > 4){
-            $('.option-container').css({justifyContent:'flex-start'});
+            $('.option-container').css({display:'inline-block'});
+        }
+        else{
+            $('.option-container').css({display:'flex'});
         }
         data.options.forEach(option => {
             var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
@@ -26,7 +29,7 @@ $('body').on('click','.option',function(){
     $(this).siblings().removeClass('active');
     $(this).parent().nextAll().remove();
     var meta = $(this).data('meta-data');
-    // console.log(meta);
+    console.log(meta);
     var nextQuestion = meta.next_question;
     // console.log(nextQuestion != null && nextQuestion != -11)
     if(nextQuestion != null && nextQuestion != -11 && nextQuestion != -1){
@@ -35,6 +38,12 @@ $('body').on('click','.option',function(){
             var questionContainer = $("<div class='question-container'><p>"+data.question.question+"</p></div>");
             questionContainer.data('question_id',data.question.id)
             var optionContainer = $("<div class='option-container'></div>");
+            if(data.options.length > 4){
+                optionContainer.css({display:'inline-block'});
+            }
+            else{
+                optionContainer.css({display:'flex'});
+            }
             data.options.forEach(option => {
                 var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
                 optiondiv.data('meta-data',option);

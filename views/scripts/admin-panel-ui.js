@@ -134,10 +134,12 @@ $('.menu-item--disabled').click(function(e){
 $('.popup img').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
+    textboxEmpty = null;
 });
 $('.no').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
+    textboxEmpty = null;
 })
 
 $('.textbox').blur(function(){
@@ -154,35 +156,82 @@ $('.textbox').blur(function(){
 });
 
 $('#edit-question-popup .yes').click(function(){
-    var newQuestion = $(this).parent().children('textarea').val().replace('\n','<br/>');
-    currQuestion.children('p').html(newQuestion);
-    $(this).parent().fadeOut(200);
-    popupActive = false;
-    const questionId = currQuestion.data().question_id;
-    $.post('/admin/update_question',{id:questionId,value:newQuestion},function(response){
-        console.log(response);
-    });
+    if(!textboxEmpty || $(this).parent().children('textarea').val()!=""){
+        var newQuestion = $(this).parent().children('textarea').val().replace('\n','<br/>');
+        currQuestion.children('p').html(newQuestion);
+        $(this).parent().fadeOut(200);
+        popupActive = false;
+        const questionId = currQuestion.data().question_id;
+        $.post('/admin/update_question',{id:questionId,value:newQuestion},function(response){
+            console.log(response);
+        });
+    }
+    else{
+        alert('do not leave this blank');
+    }
+    
 });
 
 $('#edit-answer-popup .yes').click(function(){
-    var newAnswer = $(this).parent().children('textarea').val().replace(/\n/g,'<br/>');
-    currAnswer.children('p').html(newAnswer);
-    $(this).parent().fadeOut(200);
-    popupActive = false;
-    // console.log(currAnswer.data());
-    const answerID = currAnswer.data().answer_id;
-    $.post('/admin/update_answer',{id:answerID,value:newAnswer},function(response){
-        console.log(response);
-    });
+    if(!textboxEmpty || $(this).parent().children('textarea').val()!=""){
+        var newAnswer = $(this).parent().children('textarea').val().replace(/\n/g,'<br/>');
+        currAnswer.children('p').html(newAnswer);
+        $(this).parent().fadeOut(200);
+        popupActive = false;
+        // console.log(currAnswer.data());
+        const answerID = currAnswer.data().answer_id;
+        $.post('/admin/update_answer',{id:answerID,value:newAnswer},function(response){
+            console.log(response);
+        });
+    }
+    else{
+        alert('do not leave this blank');
+    }
+    
 });
 
 $('#edit-option-popup .yes').click(function(){
-    const newOption = $(this).siblings('input').val();
-    $(this).parent().fadeOut(200);
-    currOption.html(newOption);
-    popupActive = false;
-    const optionId = currOption.data().metaData.id;
-    $.post('/admin/update_option' , {id:optionId,value:newOption} , function(response){
-        console.log(response);
-    });
+    if(!textboxEmpty || $(this).siblings('input').val() != ""){
+        const newOption = $(this).siblings('input').val();
+        currOption.html(newOption);
+        $(this).parent().fadeOut(200);
+        popupActive = false;
+        const optionId = currOption.data().metaData.id;
+        $.post('/admin/update_option' , {id:optionId,value:newOption} , function(response){
+            console.log(response);
+        });
+    }
+    else{
+        alert('do not leave this blank');
+    }
 });
+
+$('#add-option-popup .yes').click(function(){
+    if(!textboxEmpty || $(this).siblings('input').val() !=""){
+        const newOption = $(this).siblings('input').val();
+        var optionContainer = currQuestion.siblings('.option-container');
+        
+        // console.log(optionContainer.children('.option').length > 4);
+        if(optionContainer.children('.option').length > 4){
+            optionContainer.css({display:'block'});
+        }else{
+            optionContainer.css({display:'flex'});
+        }
+        const forquestion = currQuestion.data('question_id');
+        $.post('/admin/add_option' , {optionName: newOption,forQuestion: forquestion} , function(response){
+            var option = $('<div class="option">'+newOption + '</div>');
+            option.data('meta-data' , response.meta);
+            optionContainer.append(option);
+            console.log(response);
+        });
+
+        
+        $(this).parent().fadeOut(200);
+        popupActive = false;
+    }
+    else{
+        alert('do not leave this blank');
+    }
+    
+
+})

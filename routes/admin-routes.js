@@ -75,5 +75,21 @@ router.post('/update_option' , (req , res)=>{
         });
     })
 });
+router.post('/add_option' , (req,res)=>{
+    adminController.addOption(req.body.optionName , req.body.forQuestion)
+    .then((data)=>{
+        res.send({
+            status: 1,
+            message: "option inserted successfully",
+            meta: data
+        });
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        })
+    });
+});
 
 module.exports = router;
