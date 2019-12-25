@@ -92,4 +92,20 @@ router.post('/add_option' , (req,res)=>{
     });
 });
 
+router.post('/add_answer' , (req,res)=>{
+    adminController.addAnswer(req.body.option , req.body.answerContent)
+    .then((data)=>{
+        res.send({
+            status: 1,
+            message: 'answer added successfully',
+            meta: data
+        });
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        })
+    });
+});
 module.exports = router;

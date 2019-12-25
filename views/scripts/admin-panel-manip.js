@@ -25,7 +25,6 @@ $(document).ready(function(){
 
 
 $('body').on('click','.option',function(){
-    
     $(this).siblings().removeClass('active');
     $(this).parent().nextAll().remove();
     var meta = $(this).data('meta-data');
@@ -68,8 +67,11 @@ $('body').on('click','.option',function(){
         });
     }
     else{
-        if(nextQuestion != -11)
+        if(nextQuestion != -11){
+            $(this).addClass('active');
             $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
+        }
+            
     }
     
 });

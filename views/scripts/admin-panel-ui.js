@@ -234,4 +234,25 @@ $('#add-option-popup .yes').click(function(){
     }
     
 
-})
+});
+
+//meta data is answer id for answer box.
+
+$('#add-answer-popup .yes').click(function(){
+    var answer = $(this).siblings('textarea').val().replace(/\n/g , '<br/>');
+    var optionId = currOption.data('meta-data').id;
+    currOption.parent().siblings('.incomplete').remove();
+    var answerContainer = $("<div class='answer-container'><p>"+answer+"</p></div>");
+    $.post('/admin/add_answer' , {option:optionId , answerContent: answer} , function(response){
+        answerContainer.data("answer_id",response.meta.anser_id);
+    });
+
+    currOption.data('meta-data').next_question = null;
+    currOption.siblings().removeClass('active');
+    currOption.parent().nextAll().remove();
+    $(this).addClass('active');
+    $('#content').append(answerContainer);
+    $(this).parent().fadeOut(200);
+    popupActive = false;
+
+});

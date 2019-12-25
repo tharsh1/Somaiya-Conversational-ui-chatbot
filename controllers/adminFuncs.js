@@ -6,6 +6,7 @@ const updateQuestionQuery = 'update questions set question = ? where id = ?';
 const updateOptionQuery = 'update options set option_name = ? where id = ?';
 const updateAnswerQuery = 'update answers set answer = ? where id = ?'
 const addOptionQuery = 'insert into options(option_name,for_question,next_question) values(? , ? , ?)';
+const addAnswerQuery = 'insert into answers(optionid , answer) values(? , ?)';
 
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
@@ -74,6 +75,7 @@ var updateQuestion = (id,value)=>{
                 }
                 resolve(results);
             });
+            conn.release();
         });
     });
 };
@@ -90,6 +92,7 @@ var updateAnswer = (id,value)=>{
                 }
                 resolve(results);
             });
+            conn.release();
         });
     });
 };
@@ -106,6 +109,7 @@ var updateOption = (id,value)=>{
                 }
                 resolve();
             });
+            conn.release();
         });
     });
 }
@@ -127,11 +131,35 @@ var addOption = (optionName , forQuestion) => {
                     resolve(res[0]);
                 });
             });
+            conn.release();
         });
     });
 };
 
+var addAnswer = (optionId , answer) => {
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('could not connect to the DB');
+            }
 
+            conn.query(addAnswerQuery , [optionId , answer] , function(err,results,fields){
+                if(err){
+                    reject('could not insert new answer');
+                }
+                conn.query('update options set next_question = NULL where id = ?' , optionId , function(err,res,fields){
+                    if(err){
+                        reject('could not complete the task successfully');
+                    }
+                });
+                console.log(results);
+                resolve({answer_id: results.insertId});
+            });
+            
+            conn.release();
+        });
+    });
+};
 
 module.exports.get_question = get_question;
 module.exports.get_options = get_options;
@@ -140,3 +168,4 @@ module.exports.updateQuestion = updateQuestion;
 module.exports.updateOption = updateOption;
 module.exports.updateAnswer = updateAnswer;
 module.exports.addOption = addOption;
+module.exports.addAnswer = addAnswer;
