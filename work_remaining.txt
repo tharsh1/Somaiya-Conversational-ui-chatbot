@@ -1,0 +1,16 @@
+HIGH PRIORITY
+------------------------------
+delete question route
+delete answer route
+delete option route
+
+
+MEDIUM PRIORITY
+-------------------
+error handling
+
+
+
+LOW PRIORITY
+------------------
+toast messages
