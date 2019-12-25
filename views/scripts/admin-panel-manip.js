@@ -10,11 +10,17 @@ $(document).ready(function(){
         else{
             $('.option-container').css({display:'flex'});
         }
-        data.options.forEach(option => {
-            var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
-            optiondiv.data('meta-data',option);
-            $('.option-container').append(optiondiv);
-        });
+        if(data.options.length > 0){
+            data.options.forEach(option => {
+                var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
+                optiondiv.data('meta-data',option);
+                $('.option-container').append(optiondiv);
+            });
+        }
+        else{
+            optionContainer.append('<div class = "no-options">There are no options available</div>');
+        }
+        
     });
 
     setInterval(()=>{
@@ -43,11 +49,17 @@ $('body').on('click','.option',function(){
             else{
                 optionContainer.css({display:'flex'});
             }
-            data.options.forEach(option => {
-                var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
-                optiondiv.data('meta-data',option);
-                optionContainer.append(optiondiv);
-            });
+            if(data.options.length > 0){
+                data.options.forEach(option => {
+                    var optiondiv = $("<div class='option'>"+option.option_name+"</div>")
+                    optiondiv.data('meta-data',option);
+                    optionContainer.append(optiondiv);
+                });
+            }
+            else{
+                optionContainer.append('<div class = "no-options">There are no options available</div>');
+            }
+            
             $('#content').append(questionContainer);
             $('#content').append(optionContainer);
             

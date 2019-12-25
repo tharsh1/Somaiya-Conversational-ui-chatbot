@@ -210,7 +210,10 @@ $('#add-option-popup .yes').click(function(){
     if(!textboxEmpty || $(this).siblings('input').val() !=""){
         const newOption = $(this).siblings('input').val();
         var optionContainer = currQuestion.siblings('.option-container');
-        
+        if(optionContainer.children('.no-options') > 0){
+            optionContainer.children('.no-options').remove();
+        }
+
         // console.log(optionContainer.children('.option').length > 4);
         if(optionContainer.children('.option').length > 4){
             optionContainer.css({display:'block'});
@@ -255,4 +258,10 @@ $('#add-answer-popup .yes').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
 
+});
+
+$('add-question-popup .yes').click(function(){
+    var question = $(this).siblings('textarea').val().replace(/\n/g , '<br/>');
+    var optionId = currOption.data('meta-data').id;
+    currOption.parent.siblings('.incomplete').remove();
 });
