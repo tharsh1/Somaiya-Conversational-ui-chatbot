@@ -209,10 +209,10 @@ $('#edit-option-popup .yes').click(function(){
 $('#add-option-popup .yes').click(function(){
     if(!textboxEmpty || $(this).siblings('input').val() !=""){
         const newOption = $(this).siblings('input').val();
-        var optionContainer = currQuestion.siblings('.option-container');
+        var optionContainer = currQuestion.next('.option-container');
         console.log()
-        if(optionContainer.children('.no-options').length > 0){
-            optionContainer.children('.no-options').remove();
+        if(optionContainer.children('.no-option').length > 0){
+            optionContainer.children('.no-option').remove();
         }
 
         // console.log(optionContainer.children('.option').length > 4);

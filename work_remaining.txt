@@ -1,7 +1,6 @@
 HIGH PRIORITY
 ------------------------------
 delete question route
-delete answer route
 delete option route
 
 
@@ -16,7 +15,9 @@ LOW PRIORITY
 toast messages
 
 
+
 NOT CONFIRMED
 ------------------
 login page
 multi user support
+multiple decision trees in memory
