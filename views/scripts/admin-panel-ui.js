@@ -303,3 +303,15 @@ $('#delete-answer-popup .yes').click(function(){
 
     });
 }); 
+
+$('#delete-option-popup .yes').click(function(){
+    var meta = currOption.data('meta-data');
+    
+    $.post('/admin/delete_option',{id:meta.id , next: meta.next_question} , function(response){
+       
+    });
+    $(this).parent().fadeOut(200);
+    currOption.parent().nextAll().remove();
+    popupActive = false;
+    currOption.remove();
+});

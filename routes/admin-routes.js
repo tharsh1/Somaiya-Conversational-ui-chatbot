@@ -141,4 +141,21 @@ router.post('/delete_answer' , (req,res)=>{
         });
     });
 });
+
+router.post('/delete_option' , (req,res)=>{
+    adminController.deleteOption(req.body.id , req.body.next)
+    .then(data=>{
+        res.send({
+            status: 1,
+            message: 'option removed successfully',
+            meta:data
+        });
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        });
+    });
+})
 module.exports = router;

@@ -8,7 +8,9 @@ const updateAnswerQuery = 'update answers set answer = ? where id = ?'
 const addOptionQuery = 'insert into options(option_name,for_question,next_question) values(? , ? , ?)';
 const addAnswerQuery = 'insert into answers(optionid , answer) values(? , ?)';
 const addQuestionQuery = 'insert into questions(question) values (?)';
-const delAnswerQueries = 'update options set next_question = ? where id = (select optionid from answers where id = ?); select id from options where id = (select optionid from answers where id = ?); delete from answers where id = ?; '
+const delAnswerQueries = 'update options set next_question = ? where id = (select optionid from answers where id = ?); select id from options where id = (select optionid from answers where id = ?); delete from answers where id = ?; ';
+const delOptionQuery = 'delete from options where id = ?';
+const delQuestionQuery = 'delete from questions where id = ?';
 
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
@@ -203,6 +205,22 @@ var deleteAnswer = (id)=>{
     });
 };
 
+var deleteOption = (optionId,nextQuestion) =>{
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('connection not established');
+            }
+            conn.query(delOptionQuery, optionId , (err,results , fields)=>{
+                if(err){
+                    reject('error in deleting');
+                }
+                resolve('option deleted');
+            });
+        });
+    });
+}
+
 module.exports.get_question = get_question;
 module.exports.get_options = get_options;
 module.exports.get_answer = get_answer;
@@ -213,3 +231,4 @@ module.exports.addOption = addOption;
 module.exports.addAnswer = addAnswer;
 module.exports.addQuestion = addQuestion;
 module.exports.deleteAnswer = deleteAnswer;
+module.exports.deleteOption = deleteOption;

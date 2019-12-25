@@ -38,13 +38,7 @@ CREATE TABLE `answers` (
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `optionid`, `answer`) VALUES
-(1, 1, 'The various courses Offered are:<br>1)Computer Engineering<br>2)IT'),
-(2, 2, 'The various courses Offered are:<br>1)M.Tech in Computer Engineering<br>2)M.tech in IT'),
-(3, 3, 'The various courses Offered are:<br>1)PHD in Computer Engineering<br>2)PHD in IT'),
-(4, 9, 'Rs. 1,72,000/-'),
-(5, 10, 'Rs. 25,000/-'),
-(6, 11, 'Rs. 97,000/-');
+
 
 -- --------------------------------------------------------
 
@@ -63,19 +57,6 @@ CREATE TABLE `options` (
 -- Dumping data for table `options`
 --
 
-INSERT INTO `options` (`id`, `option_name`, `for_question`, `next_question`) VALUES
-(1, 'UG', 2, NULL),
-(2, 'PG', 2, NULL),
-(3, 'PHD', 2, NULL),
-(4, 'Courses', 1, 2),
-(5, 'Fees', 1, 4),
-(6, 'UG', 4, 3),
-(7, 'PG', 4, 3),
-(8, 'PHD', 4, 3),
-(9, 'OPEN', 3, NULL),
-(10, 'SC/ST', 3, NULL),
-(11, 'OBC', 3, NULL),
-(12, 'Not Listed', 1, -11);
 
 --
 -- Triggers `options`
@@ -105,6 +86,26 @@ INSERT INTO `questions` (`id`, `question`) VALUES
 (2, 'Which Level of Courses are you Looking For?'),
 (3, 'What category do you belong to?'),
 (4, 'Fees for what type of course?');
+INSERT INTO `options` (`id`, `option_name`, `for_question`, `next_question`) VALUES
+(1, 'UG', 2, NULL),
+(2, 'PG', 2, NULL),
+(3, 'PHD', 2, NULL),
+(4, 'Courses', 1, 2),
+(5, 'Fees', 1, 4),
+(6, 'UG', 4, 3),
+(7, 'PG', 4, 3),
+(8, 'PHD', 4, 3),
+(9, 'OPEN', 3, NULL),
+(10, 'SC/ST', 3, NULL),
+(11, 'OBC', 3, NULL),
+(12, 'Not Listed', 1, -11);
+INSERT INTO `answers` (`id`, `optionid`, `answer`) VALUES
+(1, 1, 'The various courses Offered are:<br>1)Computer Engineering<br>2)IT'),
+(2, 2, 'The various courses Offered are:<br>1)M.Tech in Computer Engineering<br>2)M.tech in IT'),
+(3, 3, 'The various courses Offered are:<br>1)PHD in Computer Engineering<br>2)PHD in IT'),
+(4, 9, 'Rs. 1,72,000/-'),
+(5, 10, 'Rs. 25,000/-'),
+(6, 11, 'Rs. 97,000/-');
 
 --
 -- Indexes for dumped tables
