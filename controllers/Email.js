@@ -5,7 +5,7 @@ var sendEmail = (question , email)=>{
         service: 'gmail',
         auth: {
           user: 'vanganideepanshu@gmail.com',
-          pass: 'Nokialumia@535'
+          pass: 'enter your password'
         }
       });
       

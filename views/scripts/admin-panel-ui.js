@@ -3,6 +3,7 @@ var textboxEmpty= false;
 var currQuestion = null;
 var currOption = null;
 var currAnswer = null;
+
 $(document).contextmenu(function(e){
     e.preventDefault();
 });
@@ -52,15 +53,6 @@ $('body').on('contextmenu','.option',function(e){
 
         }
     
-
-        // if(){
-
-        //     $('#option-menu ul li').eq(2).addClass('menu-item--disabled')
-        // }
-        // else{
-        //     $('#option-menu ul li').eq(2).removeClass('menu-item--disabled')
-        // }
-        
         $('#option-menu').css({
             top: e.pageY + "px",
             left: e.pageX + "px"
@@ -71,11 +63,15 @@ $('body').on('contextmenu','.option',function(e){
         alert('This is the default option. Please do not alter this');
     }
 });
+
+
 $(document).bind("mousedown", function (e) {
         if($(e.target).parents("#option-menu").length==0)
             $("#option-menu").fadeOut(200);
     
 });
+
+
 $('.menu ul li').click(function(e){
     // console.log($(this).parent().parent());
     action = $(this).text();
@@ -130,17 +126,21 @@ $('.menu ul li').click(function(e){
 $('.menu-item--disabled').click(function(e){
     console.log(this);
     e.preventDefault();
-})
+});
+
+
 $('.popup img').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
     textboxEmpty = null;
 });
+
+
 $('.no').click(function(){
     $(this).parent().fadeOut(200);
     popupActive = false;
     textboxEmpty = null;
-})
+});
 
 $('.textbox').blur(function(){
     if($(this).val() == '' && !textboxEmpty){
@@ -210,7 +210,8 @@ $('#add-option-popup .yes').click(function(){
     if(!textboxEmpty || $(this).siblings('input').val() !=""){
         const newOption = $(this).siblings('input').val();
         var optionContainer = currQuestion.siblings('.option-container');
-        if(optionContainer.children('.no-options') > 0){
+        console.log()
+        if(optionContainer.children('.no-options').length > 0){
             optionContainer.children('.no-options').remove();
         }
 
@@ -247,7 +248,8 @@ $('#add-answer-popup .yes').click(function(){
     currOption.parent().siblings('.incomplete').remove();
     var answerContainer = $("<div class='answer-container'><p>"+answer+"</p></div>");
     $.post('/admin/add_answer' , {option:optionId , answerContent: answer} , function(response){
-        answerContainer.data("answer_id",response.meta.anser_id);
+        answerContainer.data("answer_id",response.meta.answer_id);
+
     });
 
     currOption.data('meta-data').next_question = null;
@@ -260,8 +262,44 @@ $('#add-answer-popup .yes').click(function(){
 
 });
 
-$('add-question-popup .yes').click(function(){
+//add question_id as data to question container
+//add new question in questions table and update next_question in calling option to the new question_id added 
+$('#add-question-popup .yes').click(function(){
     var question = $(this).siblings('textarea').val().replace(/\n/g , '<br/>');
     var optionId = currOption.data('meta-data').id;
-    currOption.parent.siblings('.incomplete').remove();
+    currOption.parent().siblings('.incomplete').remove();
+    var questionContainer = $("<div class='question-container'><p>" + question + "</p></div>");
+    currOption.siblings().removeClass('active');
+    currOption.parent().nextAll().remove();
+    $(this).addClass('active');
+    $.post('/admin/add_question' , {option:optionId , question:question} , function(response){
+        questionContainer.data('question_id' , response.meta.question_id);
+        $('#content').append(questionContainer);
+        currOption.data('meta-data').next_question = response.meta.question_id;
+        var optionContainer = $("<div class='option-container'><div class = 'no-option'>There are no options available</div></div>");
+        $('#content').append(optionContainer);
+    });
+    
+    $(this).parent().fadeOut(200);
+    popupActive = false;
 });
+
+$('#delete-answer-popup .yes').click(function(){
+    var answerId = currAnswer.data('answer_id');
+    var possibleOptions = currAnswer.siblings('.option-container').last().children();
+    console.log(possibleOptions.html());
+    
+    // console.log(answerId);
+    currAnswer.remove();
+    $.post('/admin/delete_answer' , {id:answerId} , function(response){
+        console.log(response.meta[0]);
+        $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
+        possibleOptions.each(function(){
+            var meta = $(this).data('meta-data');
+            if(meta.id == response.meta[0].id){
+                meta.next_question = -1;
+            }
+        });
+
+    });
+}); 

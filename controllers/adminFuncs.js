@@ -7,6 +7,8 @@ const updateOptionQuery = 'update options set option_name = ? where id = ?';
 const updateAnswerQuery = 'update answers set answer = ? where id = ?'
 const addOptionQuery = 'insert into options(option_name,for_question,next_question) values(? , ? , ?)';
 const addAnswerQuery = 'insert into answers(optionid , answer) values(? , ?)';
+const addQuestionQuery = 'insert into questions(question) values (?)';
+const delAnswerQueries = 'update options set next_question = ? where id = (select optionid from answers where id = ?); select id from options where id = (select optionid from answers where id = ?); delete from answers where id = ?; '
 
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
@@ -155,7 +157,47 @@ var addAnswer = (optionId , answer) => {
                 console.log(results);
                 resolve({answer_id: results.insertId});
             });
-            
+
+            conn.release();
+        });
+    });
+};
+
+var addQuestion = (optionId , question)=>{
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('error in connecting to db')
+            }
+            conn.query(addQuestionQuery , question , (err,results,fields)=>{
+                if(err){
+                    reject('could not insert new question');
+                }
+                conn.query('update options set next_question = ? where id = ?' , [results.insertId , optionId] , (err,res,fields)=>{
+                    if(err){
+                        reject('could not complete your request');
+                    }
+                });
+                console.log(results);
+                resolve({question_id:results.insertId});
+            });
+        });
+    });
+};
+
+var deleteAnswer = (id)=>{
+    return new Promise((resolve,reject)=>{
+        connectionPool.getConnection((err,conn)=>{
+            if(err){
+                reject('error in conecting to DB');
+            }
+            conn.query(delAnswerQueries,[-1,id,id,id],(err,results,fields)=>{
+                if(err){
+                    reject('could not delete the answer');
+                }
+                console.log(results[1]);
+                resolve(results[1]);
+            });
             conn.release();
         });
     });
@@ -169,3 +211,5 @@ module.exports.updateOption = updateOption;
 module.exports.updateAnswer = updateAnswer;
 module.exports.addOption = addOption;
 module.exports.addAnswer = addAnswer;
+module.exports.addQuestion = addQuestion;
+module.exports.deleteAnswer = deleteAnswer;

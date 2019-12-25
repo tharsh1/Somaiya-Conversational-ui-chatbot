@@ -108,4 +108,37 @@ router.post('/add_answer' , (req,res)=>{
         })
     });
 });
+router.post('/add_question' , (req,res)=>{
+    adminController.addQuestion(req.body.option , req.body.question)
+    .then((data)=>{
+        res.send({
+            status: 1,
+            message: 'question added successfully',
+            meta:data
+        });
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        });
+    });
+});
+
+router.post('/delete_answer' , (req,res)=>{
+    adminController.deleteAnswer(req.body.id)
+    .then(data=>{
+        res.send({
+            status: 1,
+            message: 'answer removed successfully',
+            meta:data
+        });
+    })
+    .catch((error)=>{
+        res.send({
+            status: 0,
+            message: error
+        });
+    });
+});
 module.exports = router;
