@@ -315,3 +315,21 @@ $('#delete-option-popup .yes').click(function(){
     popupActive = false;
     currOption.remove();
 });
+
+$('#delete-question-popup .yes').click(function(){
+    var questionid = currQuestion.data('question_id');
+    if(questionid != 1){
+        $.post('/admin/delete_question',{id:questionid} , function(response){
+            
+        });
+        currQuestion.nextAll().remove();
+        $('#content').append("<p class = 'incomplete'>This route is incomplete</p>")
+        currQuestion.remove();
+    }
+    else{
+        alert('the root question cannot be deleted');
+    }
+    $(this).parent().fadeOut(200);
+    popupActive = false;
+    
+});
