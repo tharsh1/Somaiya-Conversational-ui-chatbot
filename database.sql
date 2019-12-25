@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2019 at 06:59 AM
+-- Generation Time: Dec 25, 2019 at 06:13 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -77,6 +77,14 @@ INSERT INTO `options` (`id`, `option_name`, `for_question`, `next_question`) VAL
 (11, 'OBC', 3, NULL),
 (12, 'Not Listed', 1, -11);
 
+--
+-- Triggers `options`
+--
+DELIMITER $$
+CREATE TRIGGER `option_delete_trigger` AFTER DELETE ON `options` FOR EACH ROW DELETE from questions WHERE id in (OLD.next_question)
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -113,7 +121,8 @@ ALTER TABLE `answers`
 -- Indexes for table `options`
 --
 ALTER TABLE `options`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `for_question` (`for_question`);
 
 --
 -- Indexes for table `questions`
@@ -152,6 +161,12 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `answers`
   ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`optionid`) REFERENCES `options` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `options`
+--
+ALTER TABLE `options`
+  ADD CONSTRAINT `options_ibfk_1` FOREIGN KEY (`for_question`) REFERENCES `questions` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
