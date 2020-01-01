@@ -16,11 +16,11 @@ var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
             if(err){
-                reject(err);
+                reject('Error in connecting to DB');
             }
             conn.query(get_question_query,id,(err,results,fields) =>{
                 if(err){
-                   reject(err);
+                   reject('error in fetching the question');
                 }
                 resolve(results);
             });
@@ -34,11 +34,11 @@ var get_options = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
             if(err){
-                reject(err);
+                reject('Error in connecting to DB');
             }
             conn.query(get_options_query,id,(err,results,fields) =>{
                 if(err){
-                   reject(err);
+                   reject('error in fetching options');
                 }
                 resolve(results);
             });
@@ -53,11 +53,11 @@ var get_answer = (option)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
             if(err){
-                reject(err);
+                reject('Error in connecting to DB');
             }
             conn.query(get_answer_query,option,(err,results,fields) =>{
                 if(err){
-                   reject(err);
+                   reject('error in fetching answers');
                 }
                 resolve(results);
             });
@@ -77,7 +77,7 @@ var updateQuestion = (id,value)=>{
                 if(err){
                     reject('could not update the question');
                 }
-                resolve(results);
+                resolve('question updated successfully');
             });
             conn.release();
         });
@@ -94,7 +94,7 @@ var updateAnswer = (id,value)=>{
                 if(err){
                     reject('could not update the answer');
                 }
-                resolve(results);
+                resolve('answer updated successfully');
             });
             conn.release();
         });
@@ -146,7 +146,6 @@ var addAnswer = (optionId , answer) => {
             if(err){
                 reject('could not connect to the DB');
             }
-
             conn.query(addAnswerQuery , [optionId , answer] , function(err,results,fields){
                 if(err){
                     reject('could not insert new answer');
@@ -156,8 +155,7 @@ var addAnswer = (optionId , answer) => {
                         reject('could not complete the task successfully');
                     }
                 });
-                console.log(results);
-                resolve({answer_id: results.insertId});
+                resolve(results.insertId);
             });
 
             conn.release();
@@ -180,8 +178,8 @@ var addQuestion = (optionId , question)=>{
                         reject('could not complete your request');
                     }
                 });
-                console.log(results);
-                resolve({question_id:results.insertId});
+                
+                resolve(results.insertId);
             });
         });
     });
