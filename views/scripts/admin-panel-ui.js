@@ -4,6 +4,17 @@ var currQuestion = null;
 var currOption = null;
 var currAnswer = null;
 
+var displayToast = (heading , type , text)=>{
+    $.toast({
+        heading: heading,
+        text: text,
+        icon: type,
+        showHideTransition: 'slide',
+        loader:false,
+        position:{bottom: '20vh' , left:'40%'}
+    });
+};
+
 $(document).contextmenu(function(e){
     e.preventDefault();
 });
@@ -58,8 +69,8 @@ $('body').on('contextmenu','.option',function(e){
         }).fadeIn(300);
         currOption =$(this); 
     }else{
-        //display toast message instead
-        alert('This is the default option. Please do not alter this');
+        
+        displayToast('Danger' , 'error' , 'Please do not alter this option')
     }
 });
 
@@ -114,8 +125,7 @@ $('.menu ul li').click(function(e){
         popupActive = true;
     }
     else{
-        //display toast message
-        alert('please perform a task on the active popup')
+        
     }
 });
 
@@ -159,16 +169,16 @@ $('#edit-question-popup .yes').click(function(){
         const questionId = currQuestion.data().question_id;
         $.post('/admin/update_question',{id:questionId,value:newQuestion},function(response){
             if(response.code === 1){
-                //display success toast message
+                displayToast('Success' , 'success' , response.message);
             }
             else{
-                //display failure toast message
+                displayToast('Error' , 'error' , response.message);
             }
         });
     }
     else{
-        //display toast message
-        alert('do not leave this blank');
+        displayToast('Incomplete' , 'warning' , 'please do not leave this field blank');
+        
     }
     
 });
@@ -181,17 +191,16 @@ $('#edit-answer-popup .yes').click(function(){
         popupActive = false;
         const answerId = currAnswer.data().answer_id;
         $.post('/admin/update_answer',{id:answerId, value:newAnswer},function(response){
-            if(response.code == 1){
-                //display success toast message
+            if(response.code === 1){
+                displayToast('Success' , 'success' , response.message);
             }
             else{
-                //display error toast message
+                displayToast('Error' , 'error' , response.message);
             }
         });
     }
     else{
-        //display toast message
-        alert('do not leave this blank');
+        displayToast('Incomplete' , 'warning' , 'please do not leave this field blank');
     }
     
 });
@@ -204,17 +213,16 @@ $('#edit-option-popup .yes').click(function(){
         popupActive = false;
         const optionId = currOption.data().metaData.id;
         $.post('/admin/update_option' , {id:optionId,value:newOption} , function(response){
-            if(response.code == 1){
-                //display success toast message
+            if(response.code === 1){
+                displayToast('Success' , 'success' , response.message);
             }
             else{
-                //display error toast message
+                displayToast('Error' , 'error' , response.message);
             }
         });
     }
     else{
-        //display toast message
-        alert('do not leave this blank');
+        displayToast('Incomplete' , 'warning' , 'please do not leave this field blank');
     }
 });
 
@@ -238,10 +246,10 @@ $('#add-option-popup .yes').click(function(){
                 option.data('meta-data' , response.meta);
                 optionContainer.append(option);
 
-                //add success toast
+                displayToast('Success' , 'success' , response.message);
             }
             else{
-                //add failure toast
+                displayToast('Error' , 'error' , response.message);
             }
             
         });
@@ -251,8 +259,7 @@ $('#add-option-popup .yes').click(function(){
         popupActive = false;
     }
     else{
-        //display toast message
-        alert('do not leave this blank');
+        displayToast('Error' , 'error' , response.message);
     }
     
 
@@ -275,10 +282,10 @@ $('#add-answer-popup .yes').click(function(){
             $(this).addClass('active');
             $('#content').append(answerContainer);
 
-            //display success toast.
+            displayToast('Success' , 'success' , response.message);
         }
         else{
-            //display failure toast message
+            displayToast('Error' , 'error' , response.message);
         }
     });
 
@@ -305,10 +312,11 @@ $('#add-question-popup .yes').click(function(){
             currOption.data('meta-data').next_question = response.question_id;
             var optionContainer = $("<div class='option-container'><div class = 'no-option'>There are no options available</div></div>");
             $('#content').append(optionContainer);
-            //display success toat messages
+            
+            displayToast('Success' , 'success' , response.message);
         }
         else{
-            //display failure toast messages
+            displayToast('Error' , 'error' , response.message);
         }
         
     });
@@ -331,10 +339,11 @@ $('#delete-answer-popup .yes').click(function(){
                     meta.next_question = -1;
                 }
             });
-            //display success toast
+            
+            displayToast('Success' , 'success' , response.message);
         }
         else{   
-            //display failure toast message
+            displayToast('Error' , 'error' , response.message);
         }
     });
     $(this).parent().fadeOut(200);
@@ -348,10 +357,11 @@ $('#delete-option-popup .yes').click(function(){
         if(response.code == 1){
             currOption.parent().nextAll().remove();
             currOption.remove();
-            //display success toast message
+            
+            displayToast('Success' , 'success' , response.message);
         }
         else{
-            //display failure toast
+            displayToast('Error' , 'error' , response.message);
         }
     });
     $(this).parent().fadeOut(200);
@@ -367,17 +377,17 @@ $('#delete-question-popup .yes').click(function(){
                 currQuestion.nextAll().remove();
                 $('#content').append("<p class = 'incomplete'>This route is incomplete</p>")
                 currQuestion.remove();
-                //display success toast
+                
+                displayToast('Success' , 'success' , response.message);
             }
             else{
-                //display failure toast
+                displayToast('Error' , 'error' , response.message);
             }
         });
        
     }
     else{
-        //display toast message
-        alert('the root question cannot be deleted');
+        displayToast('Error' , 'error' , 'The root question cannot be deleted');
     }
     $(this).parent().fadeOut(200);
     popupActive = false;

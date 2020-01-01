@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get("/",(req,res)=>{
-    res.sendfile(path.resolve(path.join(__dirname + '/../views/html/admin_dash.html')));
+    res.sendFile(path.resolve(path.join(__dirname + '/../views/html/admin_dash.html')));
 });
 
 router.post('/get_question_data', (req,res)=>{
@@ -63,7 +63,10 @@ router.post('/update_answer' , (req,res)=>{
 router.post('/update_option' , (req , res)=>{
     adminController.updateOption(req.body.id , req.body.value)
     .then((data)=>{
-        res.send({code:1 , message: data});
+        res.send({
+            code:1, 
+            message: 'Option is updated successfully'
+        });
     })
     .catch((error)=>{
         res.send({
