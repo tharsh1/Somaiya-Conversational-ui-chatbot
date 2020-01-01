@@ -1,5 +1,7 @@
 # Somaiya-Conversational-ui-chatbot
 
+version 1.0.0 is now ready.
+
 install xampp, nodejs
 
 start apache and mysql from xampp control panel

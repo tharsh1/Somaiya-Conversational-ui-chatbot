@@ -1,8 +1,6 @@
 HIGH PRIORITY
 ------------------------------
-delete question route
-delete option route
-
+none
 
 MEDIUM PRIORITY
 -------------------
