@@ -1,5 +1,6 @@
+//Importing 'nodeemailer' module
 var emailSender = require('nodemailer');
-
+//Send email to somaiya and cc to user.
 var sendEmail = (question , email)=>{
     var transporter = emailSender.createTransport({
         service: 'gmail',
