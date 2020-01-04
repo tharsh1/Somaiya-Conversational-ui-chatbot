@@ -1,13 +1,22 @@
+//Importing 'express' module
 var express = require('express');
+//Creating router object
 var router = express.Router();
+//Importing 'path' module
 const path = require('path');
+//Importing 'chat_db_funcs' module
 const chatController = require('../controllers/chat_db_funcs');
+//Importing 'Email' module
 const emailController = require('../controllers/Email');
+//Importing 'body-parser' module
 var bodyParser = require('body-parser');
 
+//Returns middleware that only parses json
 router.use(bodyParser.json()); 
+//Returns middleware that only parses urlencoded bodies
 router.use(bodyParser.urlencoded({ extended: true })); 
 
+//For route '/start' send response as starting question
 router.get('/start',(req,res)=>{
     var result = chatController.start_conv();
     result.then((data)=>{
@@ -17,6 +26,8 @@ router.get('/start',(req,res)=>{
         console.log('start');
     });
 });
+
+//For route '/get_options' send response as options for given question
 router.post('/get_options',(req,res)=>{
     var result = chatController.get_options(req.body.next_options);
     result.then((data)=>{
@@ -27,6 +38,7 @@ router.post('/get_options',(req,res)=>{
     });
 });
 
+//For route '/next_question' send response as next question for given option
 router.post('/next_question',(req,res)=>{
     var result = chatController.next_question(req.body.next_question);
     result.then((data)=>{
@@ -37,6 +49,7 @@ router.post('/next_question',(req,res)=>{
     });
 });
 
+//For route '/answer' send response as answer for given option
 router.post('/answer' , (req,res)=>{
     console.log(req.body.option);
     var result = chatController.get_answer(req.body.option);
@@ -49,6 +62,7 @@ router.post('/answer' , (req,res)=>{
     })
 });
 
+//For route 'send_email' send user query as email to somaiya
 router.post('/send_email' , (req,res)=>{
     var result = emailController.sendEmail(req.body.question , req.body.email);
     result.then(()=>{
@@ -60,4 +74,5 @@ router.post('/send_email' , (req,res)=>{
     })
 });
 
+//Export router to make them available in other files
 module.exports = router;
