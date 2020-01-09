@@ -1,17 +1,31 @@
+//Importing 'database-connection' module
 const connectionPool = require('../config/database-connection');
+//'get_question_query' to store query to obtain question from id
 const get_question_query = 'select * from questions where id=?';
+//'get_options_query' to store query to obtain all options for given question id
 const get_options_query = 'select * from options where for_question=?';
+//'get_answer_query' to obtain answer associated with given option name
 const get_answer_query = 'select answers.id, answers.answer from answers join options where answers.optionid = options.id and options.option_name = ?';
+//'updateQuestionQuery' to update question for the given id
 const updateQuestionQuery = 'update questions set question = ? where id = ?';
+//'updateOptionQuery' to update option for the given id
 const updateOptionQuery = 'update options set option_name = ? where id = ?';
+//'updateAnswerQuery' to update answer for given id
 const updateAnswerQuery = 'update answers set answer = ? where id = ?'
+//'addOptionQuery' to add new option
 const addOptionQuery = 'insert into options(option_name,for_question,next_question) values(? , ? , ?)';
+//'addAnswerQuery' to add new answer
 const addAnswerQuery = 'insert into answers(optionid , answer) values(? , ?)';
-const addQuestionQuery = 'insert into questions(question) values (?)';
+//'addQuestionQuery' to and new question
+const addQuestionQuery = 'insert into questions(question) values (?)';0
+//'delAnswerQueries' to delete answer by first updating the next question of option whose answer is being deleted, then deleting the answer
 const delAnswerQueries = 'update options set next_question = ? where id = (select optionid from answers where id = ?); select id from options where id = (select optionid from answers where id = ?); delete from answers where id = ?; ';
+//'delOptionQuery' to delete option with given id
 const delOptionQuery = 'delete from options where id = ?';
+//'delQuestionQuery' to delete question by first updating next question of options to '-1', then delete to question 
 const delQuestionQuery = 'update options set next_question = -1 where next_question = ?; delete from questions where id = ?';
 
+//If connection established and 'get_question_query' executed properly then question associated with given id will get stored in 'get_question'
 var get_question = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
@@ -30,6 +44,7 @@ var get_question = (id)=>{
     });
 };
 
+//If connection established and 'get_options_query' executed properly then options associated with given question id will get stored in 'get_option'
 var get_options = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
@@ -48,6 +63,7 @@ var get_options = (id)=>{
     });
 };
 
+//If connection established and 'get_answer_query' executed properly then answer associated with given option name will get stored in 'get_answer'
 var get_answer = (option)=>{
     console.log(option);
     return new Promise((resolve,reject)=>{
@@ -67,6 +83,7 @@ var get_answer = (option)=>{
     });
 }
 
+//If connection established and 'updateQuestionQuery' executed properly then question associated with given id will get updated with given value
 var updateQuestion = (id,value)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -84,6 +101,7 @@ var updateQuestion = (id,value)=>{
     });
 };
 
+//If connection established and 'updateAnswerQuery' executed properly then answer associated with given id will get updated with given value
 var updateAnswer = (id,value)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -101,6 +119,7 @@ var updateAnswer = (id,value)=>{
     });
 };
 
+//If connection established and 'updateOptionQuery' executed properly then option associated with given id will get updated with given value
 var updateOption = (id,value)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -118,6 +137,7 @@ var updateOption = (id,value)=>{
     });
 }
 
+//If connection established and 'addOption' executed properly then option will be added with given values
 var addOption = (optionName , forQuestion) => {
     return new Promise((resolve , reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -140,6 +160,7 @@ var addOption = (optionName , forQuestion) => {
     });
 };
 
+//If connection established and 'addAnswer' executed properly then answer will be added with given values
 var addAnswer = (optionId , answer) => {
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -163,6 +184,7 @@ var addAnswer = (optionId , answer) => {
     });
 };
 
+//If connection established and 'addQuestion' executed properly then question will be added with given values
 var addQuestion = (optionId , question)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -185,6 +207,7 @@ var addQuestion = (optionId , question)=>{
     });
 };
 
+//If connection established and 'deleteAnswer' executed properly then answer will get deleted with given id
 var deleteAnswer = (id)=>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -219,6 +242,7 @@ var deleteOption = (optionId) =>{
     });
 };
 
+//If connection established and 'deleteQuestion' executed properly then question will get deleted with given id
 var deleteQuestion = (questionId) =>{
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn)=>{
@@ -235,6 +259,7 @@ var deleteQuestion = (questionId) =>{
     });
 };
 
+//Exporting all to make them available in other files
 module.exports.get_question = get_question;
 module.exports.get_options = get_options;
 module.exports.get_answer = get_answer;
