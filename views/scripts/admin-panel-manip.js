@@ -1,3 +1,15 @@
+var displayToast = (heading , type , text)=>{
+    $.toast({
+        heading: heading,
+        text: text,
+        icon: type,
+        showHideTransition: 'slide',
+        loader:false,
+        position:{bottom: '20vh' , left:'40%'}
+    });
+};
+
+
 $(document).ready(function(){
     $.post('/admin/get_question_data',{id:1}, function(data){
         if(data.code == 1){
@@ -22,7 +34,7 @@ $(document).ready(function(){
             }
         }
         else{
-            //display a toast message
+            displayToast('Error' , 'error' , 'Something went wrong');
         }
     });
 
@@ -65,7 +77,7 @@ $('body').on('click','.option',function(){
                 $('#content').append(optionContainer);
             }
             else{
-                //display toast message
+                displayToast('Error' , 'error' , 'Something went wrong');
             }
             
             
@@ -81,7 +93,7 @@ $('body').on('click','.option',function(){
                 $('#content').append(answerContainer);
             }
             else{
-                //display toast message
+                displayToast('Error' , 'error' , 'Something went wrong');
             }
             
         });
