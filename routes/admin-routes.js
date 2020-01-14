@@ -3,10 +3,10 @@ var router = express.Router();
 const path = require('path');
 var bodyParser = require('body-parser');
 var adminController = require('../controllers/adminFuncs');
+const authMiddleware = require('../middleware/authMiddleware');
 router.use(bodyParser.json()); 
 router.use(bodyParser.urlencoded({ extended: true }));
-
-
+router.use(authMiddleware.validateToken);
 
 router.get("/",(req,res)=>{
     res.sendFile(path.resolve(path.join(__dirname + '/../views/html/admin_dash.html')));
