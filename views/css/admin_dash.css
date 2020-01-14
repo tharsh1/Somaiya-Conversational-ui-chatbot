@@ -9,23 +9,40 @@
     color: rgb(82, 80, 80);
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
+    display: flex
 }
 
 #header h3{
     box-sizing: border-box;
     line-height: 11vh;
     font-size: 25px;
-    float: left;
     font-weight: lighter;
+    width: 70%;
     padding-left: 10vw;
+    align-items: baseline;
+}
+.logout{
+    float: right;
+    margin-right: 100px;
+    height: 50px;
+    width: 100px;
+    margin-top: 20px;
+    border-radius: 20px;
+    border:none;
+    outline: none;
+    background-color: #750909;
+    color: white;
+    font-size: 20px;
 }
 #header img{
     height: 10vh;
     box-sizing: border-box;
-    float: right;
+    
     padding-right: 10vw;
     margin-top: 10px;
 }
+
+
 #content{
     width: 70%;
     background-color: rgb(245, 245, 245);
