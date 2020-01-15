@@ -1,7 +1,7 @@
 var textBoxDisplayed = false;
 var chatboxOpen = false;
 var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
+let flagFirst = false;
 //Function to display first question and it's options by appending option buttons
 function start_chat(){
     $.get('/chat/start',(data)=>{
@@ -24,8 +24,11 @@ $('#arrow').click(()=>{
         },{
             duration: 600,
             queue: false,
-            complete:()=>{
-                start_chat();
+            complete: () => {
+                if (!flagFirst) {
+                    start_chat();
+                    flagFirst = true;
+                }
             }
         });
         chatboxOpen = true;
@@ -37,8 +40,7 @@ $('#arrow').click(()=>{
             queue: false,
             
         });
-        $('.chat-content').empty();
-        $('.options').empty();
+        
         chatboxOpen = false;
     }
 });            
@@ -62,8 +64,8 @@ $('.options').on('click','.optionbtn',function(){
                 msgrcd.hide();
                 $('.chat-content').append(msgrcd);
                 msgrcd.fadeIn(400);
-                $('.chat-content').animate({
-                    scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                $('.chat').animate({
+                    scrollTop: $('.chat')[0].scrollHeight}, "slow");
                 $('.optionbtn').fadeOut(400);
                 //Clear previous options
                 $('options').empty();
@@ -92,8 +94,8 @@ $('.options').on('click','.optionbtn',function(){
             textBox.delay(400).fadeIn(400);
             textBoxDisplayed = true;
         }
-        $('.chat-content').animate({
-            scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+        $('.chat').animate({
+            scrollTop: $('.chat')[0].scrollHeight}, "slow");
         $(this).prop('disabled',true);
         
     }else{
@@ -104,8 +106,8 @@ $('.options').on('click','.optionbtn',function(){
             msgrcd.hide();
             $('.chat-content').append(msgrcd);
             msgrcd.delay(400).fadeIn(400);
-            $('.chat-content').animate({
-                scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+            $('.chat').animate({
+                scrollTop: $('.chat')[0].scrollHeight}, "slow");
             $('.optionbtn').fadeOut(400);
             //Clear all previous options
             $('options').empty();
@@ -143,8 +145,8 @@ $('.chat-content').on('click','.send',function(){
                     textBoxDisplayed = false;
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat-content').animate({
-                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                    $('.chat').animate({
+                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
                 //Display first question and it's options by appending option buttons
                 $.post('/chat/next_question',{'next_question':1},function(data){
     
@@ -152,8 +154,8 @@ $('.chat-content').on('click','.send',function(){
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat-content').animate({
-                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
+                    $('.chat').animate({
+                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
                     $('.optionbtn').fadeOut(400);
                     //Clear previous options
                     $('options').empty();
