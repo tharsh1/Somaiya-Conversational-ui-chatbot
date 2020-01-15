@@ -167,12 +167,14 @@ $('#edit-question-popup .yes').click(function(){
         $(this).parent().fadeOut(200);
         popupActive = false;
         const questionId = currQuestion.data().question_id;
-        $.post('/admin/update_question',{id:questionId,value:newQuestion},function(response){
-            if(response.code === 1){
-                displayToast('Success' , 'success' , response.message);
-            }
-            else{
-                displayToast('Error' , 'error' , response.message);
+        $.ajax({
+            method: 'POST', url: '/admin/update_question', headers: { Authorization: localStorage.jwtToken }, data: { id: questionId, value: newQuestion }, success: function (response) {
+                if (response.code === 1) {
+                    displayToast('Success', 'success', response.message);
+                }
+                else {
+                    displayToast('Error', 'error', response.message);
+                }
             }
         });
     }
@@ -190,12 +192,14 @@ $('#edit-answer-popup .yes').click(function(){
         $(this).parent().fadeOut(200);
         popupActive = false;
         const answerId = currAnswer.data().answer_id;
-        $.post('/admin/update_answer',{id:answerId, value:newAnswer},function(response){
-            if(response.code === 1){
-                displayToast('Success' , 'success' , response.message);
-            }
-            else{
-                displayToast('Error' , 'error' , response.message);
+        $.ajax({
+            method: 'POST', url: '/admin/update_answer', headers: { Authorization: localStorage.jwtToken }, data: { id: answerId, value: newAnswer }, function(response) {
+                if (response.code === 1) {
+                    displayToast('Success', 'success', response.message);
+                }
+                else {
+                    displayToast('Error', 'error', response.message);
+                }
             }
         });
     }
@@ -212,12 +216,14 @@ $('#edit-option-popup .yes').click(function(){
         $(this).parent().fadeOut(200);
         popupActive = false;
         const optionId = currOption.data().metaData.id;
-        $.post('/admin/update_option' , {id:optionId,value:newOption} , function(response){
-            if(response.code === 1){
-                displayToast('Success' , 'success' , response.message);
-            }
-            else{
-                displayToast('Error' , 'error' , response.message);
+        $.ajax({
+            method: 'POST', url: '/admin/update_option', headers: { Authorization: localStorage.jwtToken }, data: { id: optionId, value: newOption },success: function(response) {
+                if (response.code === 1) {
+                    displayToast('Success', 'success', response.message);
+                }
+                else {
+                    displayToast('Error', 'error', response.message);
+                }
             }
         });
     }
@@ -240,18 +246,20 @@ $('#add-option-popup .yes').click(function(){
             optionContainer.css({display:'flex'});
         }
         const forquestion = currQuestion.data('question_id');
-        $.post('/admin/add_option' , {optionName: newOption,forQuestion: forquestion} , function(response){
-            if(response.code == 1){
-                var option = $('<div class="option">'+newOption + '</div>');
-                option.data('meta-data' , response.meta);
-                optionContainer.append(option);
+        $.ajax({
+            method: 'POST', url: '/admin/add_option', headers: { Authorization: localStorage.jwtToken }, data: { optionName: newOption, forQuestion: forquestion }, success: function (response) {
+                if (response.code == 1) {
+                    var option = $('<div class="option">' + newOption + '</div>');
+                    option.data('meta-data', response.meta);
+                    optionContainer.append(option);
 
-                displayToast('Success' , 'success' , response.message);
-            }
-            else{
-                displayToast('Error' , 'error' , response.message);
-            }
+                    displayToast('Success', 'success', response.message);
+                }
+                else {
+                    displayToast('Error', 'error', response.message);
+                }
             
+            }
         });
 
         
@@ -272,20 +280,22 @@ $('#add-answer-popup .yes').click(function(){
     var optionId = currOption.data('meta-data').id;
     currOption.parent().siblings('.incomplete').remove();
     
-    $.post('/admin/add_answer' , {option:optionId , answerContent: answer} , function(response){
-        if(response.code == 1){
-            var answerContainer = $("<div class='answer-container'><p>"+answer+"</p></div>");
-            answerContainer.data("answer_id",response.answer_id);
-            currOption.data('meta-data').next_question = null;
-            currOption.siblings().removeClass('active');
-            currOption.parent().nextAll().remove();
-            $(this).addClass('active');
-            $('#content').append(answerContainer);
+    $.ajax({
+        method: 'POST', url: '/admin/add_answer', headers: { Authorization: localStorage.jwtToken }, data: { option: optionId, answerContent: answer }, success: function (response) {
+            if (response.code == 1) {
+                var answerContainer = $("<div class='answer-container'><p>" + answer + "</p></div>");
+                answerContainer.data("answer_id", response.answer_id);
+                currOption.data('meta-data').next_question = null;
+                currOption.siblings().removeClass('active');
+                currOption.parent().nextAll().remove();
+                $(this).addClass('active');
+                $('#content').append(answerContainer);
 
-            displayToast('Success' , 'success' , response.message);
-        }
-        else{
-            displayToast('Error' , 'error' , response.message);
+                displayToast('Success', 'success', response.message);
+            }
+            else {
+                displayToast('Error', 'error', response.message);
+            }
         }
     });
 
@@ -305,20 +315,22 @@ $('#add-question-popup .yes').click(function(){
     currOption.siblings().removeClass('active');
     currOption.parent().nextAll().remove();
     $(this).addClass('active');
-    $.post('/admin/add_question' , {option:optionId , question:question} , function(response){
-        if(response.code == 1){
-            questionContainer.data('question_id' , response.question_id);
-            $('#content').append(questionContainer);
-            currOption.data('meta-data').next_question = response.question_id;
-            var optionContainer = $("<div class='option-container'><div class = 'no-option'>There are no options available</div></div>");
-            $('#content').append(optionContainer);
+    $.ajax({
+        method: 'POST', url: '/admin/add_question', headers: { Authorization: localStorage.jwtToken }, data: { option: optionId, question: question }, success: function (response) {
+            if (response.code == 1) {
+                questionContainer.data('question_id', response.question_id);
+                $('#content').append(questionContainer);
+                currOption.data('meta-data').next_question = response.question_id;
+                var optionContainer = $("<div class='option-container'><div class = 'no-option'>There are no options available</div></div>");
+                $('#content').append(optionContainer);
             
-            displayToast('Success' , 'success' , response.message);
-        }
-        else{
-            displayToast('Error' , 'error' , response.message);
-        }
+                displayToast('Success', 'success', response.message);
+            }
+            else {
+                displayToast('Error', 'error', response.message);
+            }
         
+        }
     });
     
     
@@ -328,22 +340,24 @@ $('#delete-answer-popup .yes').click(function(){
     var answerId = currAnswer.data('answer_id');
     var possibleOptions = currAnswer.siblings('.option-container').last().children();
     console.log(possibleOptions.html());
-    $.post('/admin/delete_answer' , {id:answerId} , function(response){
+    $.ajax({
+        method: 'POST', url: '/admin/delete_answer', headers: { Authorization: localStorage.jwtToken }, data: { id: answerId }, success: function (response) {
 
-        if(response.code == 1){
-            currAnswer.remove();
-            $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
-            possibleOptions.each(function(){
-                var meta = $(this).data('meta-data');
-                if(meta.id == response.meta.id){
-                    meta.next_question = -1;
-                }
-            });
+            if (response.code == 1) {
+                currAnswer.remove();
+                $('#content').append("<p class = 'incomplete'>This route is incomplete</p>");
+                possibleOptions.each(function () {
+                    var meta = $(this).data('meta-data');
+                    if (meta.id == response.meta.id) {
+                        meta.next_question = -1;
+                    }
+                });
             
-            displayToast('Success' , 'success' , response.message);
-        }
-        else{   
-            displayToast('Error' , 'error' , response.message);
+                displayToast('Success', 'success', response.message);
+            }
+            else {
+                displayToast('Error', 'error', response.message);
+            }
         }
     });
     $(this).parent().fadeOut(200);
@@ -353,15 +367,17 @@ $('#delete-answer-popup .yes').click(function(){
 $('#delete-option-popup .yes').click(function(){
     var meta = currOption.data('meta-data');
     
-    $.post('/admin/delete_option',{id:meta.id , next: meta.next_question} , function(response){
-        if(response.code == 1){
-            currOption.parent().nextAll().remove();
-            currOption.remove();
+    $.ajax({
+        method: 'POST', url: '/admin/delete_option', headers: { Authorization: localStorage.jwtToken }, data: { id: meta.id, next: meta.next_question }, success: function (response) {
+            if (response.code == 1) {
+                currOption.parent().nextAll().remove();
+                currOption.remove();
             
-            displayToast('Success' , 'success' , response.message);
-        }
-        else{
-            displayToast('Error' , 'error' , response.message);
+                displayToast('Success', 'success', response.message);
+            }
+            else {
+                displayToast('Error', 'error', response.message);
+            }
         }
     });
     $(this).parent().fadeOut(200);
@@ -372,16 +388,18 @@ $('#delete-option-popup .yes').click(function(){
 $('#delete-question-popup .yes').click(function(){
     var questionid = currQuestion.data('question_id');
     if(questionid != 1){
-        $.post('/admin/delete_question',{id:questionid} , function(response){
-            if(response.code == 1){
-                currQuestion.nextAll().remove();
-                $('#content').append("<p class = 'incomplete'>This route is incomplete</p>")
-                currQuestion.remove();
+        $.ajax({
+            method: 'POST', url: '/admin/delete_question', headers: { Authorization: localStorage.jwtToken }, data: { id: questionid }, success: function (response) {
+                if (response.code == 1) {
+                    currQuestion.nextAll().remove();
+                    $('#content').append("<p class = 'incomplete'>This route is incomplete</p>")
+                    currQuestion.remove();
                 
-                displayToast('Success' , 'success' , response.message);
-            }
-            else{
-                displayToast('Error' , 'error' , response.message);
+                    displayToast('Success', 'success', response.message);
+                }
+                else {
+                    displayToast('Error', 'error', response.message);
+                }
             }
         });
        

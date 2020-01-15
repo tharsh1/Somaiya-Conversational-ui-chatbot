@@ -41,6 +41,17 @@
 		}
 		.form_container {
 			margin-top: 100px;
+			display: flex;
+			flex-direction: column;
+			flex-flow: column;
+		}
+		#error{
+			height: 20px;
+			width: 100%;
+			text-indent: 30px;
+			color: #750909;
+			font-size: 12px;
+			margin-bottom: 20px;
 		}
 		.login_btn {
 			width: 100%;

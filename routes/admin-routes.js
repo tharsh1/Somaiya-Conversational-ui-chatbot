@@ -6,13 +6,13 @@ var adminController = require('../controllers/adminFuncs');
 const authMiddleware = require('../middleware/authMiddleware');
 router.use(bodyParser.json()); 
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(authMiddleware.validateToken);
+// router.use(authMiddleware.validateToken);
 
 router.get("/",(req,res)=>{
     res.sendFile(path.resolve(path.join(__dirname + '/../views/html/admin_dash.html')));
 });
 
-router.post('/get_question_data', (req,res)=>{
+router.post('/get_question_data',authMiddleware.validateToken, (req,res)=>{
     adminController.get_question(req.body.id)
     .then((question)=>{
         adminController.get_options(req.body.id)
@@ -28,7 +28,7 @@ router.post('/get_question_data', (req,res)=>{
     });
 });
 
-router.post('/get_answer' , (req,res)=>{
+router.post('/get_answer' ,authMiddleware.validateToken, (req,res)=>{
     console.log(req.body.option);
     var result = adminController.get_answer(req.body.option);
     result.then((data)=>{
@@ -39,7 +39,7 @@ router.post('/get_answer' , (req,res)=>{
     })
 });
 
-router.post('/update_question' , (req,res)=>{
+router.post('/update_question' ,authMiddleware.validateToken, (req,res)=>{
     var result = adminController.updateQuestion(req.body.id,req.body.value);
     result.then((data)=>{
         res.send({code:1 , message:data});
@@ -49,7 +49,7 @@ router.post('/update_question' , (req,res)=>{
     })
 });
 
-router.post('/update_answer' , (req,res)=>{
+router.post('/update_answer' ,authMiddleware.validateToken, (req,res)=>{
     var result = adminController.updateAnswer(req.body.id,req.body.value);
     result.then((data)=>{
         res.send({code:1 , message:  data});
@@ -60,7 +60,7 @@ router.post('/update_answer' , (req,res)=>{
 })
 
 
-router.post('/update_option' , (req , res)=>{
+router.post('/update_option' ,authMiddleware.validateToken, (req , res)=>{
     adminController.updateOption(req.body.id , req.body.value)
     .then((data)=>{
         res.send({
@@ -75,7 +75,7 @@ router.post('/update_option' , (req , res)=>{
         });
     })
 });
-router.post('/add_option' , (req,res)=>{
+router.post('/add_option' ,authMiddleware.validateToken, (req,res)=>{
     adminController.addOption(req.body.optionName , req.body.forQuestion)
     .then((data)=>{
         res.send({
@@ -92,7 +92,7 @@ router.post('/add_option' , (req,res)=>{
     });
 });
 
-router.post('/add_answer' , (req,res)=>{
+router.post('/add_answer' ,authMiddleware.validateToken, (req,res)=>{
     adminController.addAnswer(req.body.option , req.body.answerContent)
     .then((data)=>{
         res.send({
@@ -108,7 +108,7 @@ router.post('/add_answer' , (req,res)=>{
         })
     });
 });
-router.post('/add_question' , (req,res)=>{
+router.post('/add_question' ,authMiddleware.validateToken, (req,res)=>{
     adminController.addQuestion(req.body.option , req.body.question)
     .then((data)=>{
         res.send({
@@ -125,7 +125,7 @@ router.post('/add_question' , (req,res)=>{
     });
 });
 
-router.post('/delete_answer' , (req,res)=>{
+router.post('/delete_answer' ,authMiddleware.validateToken, (req,res)=>{
     adminController.deleteAnswer(req.body.id)
     .then(data=>{
         res.send({
@@ -142,7 +142,7 @@ router.post('/delete_answer' , (req,res)=>{
     });
 });
 
-router.post('/delete_option' , (req,res)=>{
+router.post('/delete_option' ,authMiddleware.validateToken, (req,res)=>{
     adminController.deleteOption(req.body.id)
     .then(data=>{
         res.send({
@@ -158,7 +158,7 @@ router.post('/delete_option' , (req,res)=>{
     });
 });
 
-router.post('/delete_question' , (req,res)=>{
+router.post('/delete_question' ,authMiddleware.validateToken, (req,res)=>{
     adminController.deleteQuestion(req.body.id)
     .then(data=>{
         res.send({

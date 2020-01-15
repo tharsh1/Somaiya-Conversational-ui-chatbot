@@ -14,9 +14,9 @@ let controllers = {
             }
             conn.query(get_user_query,req.body.email,(err,results,fields) =>{
                 if (req.body.password === results[0].password) {
-                    var token = jwt.sign({}, config.jwtSecretKey , {expiresIn:'3h'});
+                    var token = jwt.sign({user: req.body.email}, config.jwtSecretKey , {expiresIn:'3h'});
                     token = "Bearer " + token;
-                    res.send({ code: 1, message:'user authenticated' , token });
+                    res.send({ code: 1, message: 'user authenticated', token });    
                 }
                 else {
                     res.send({ code: 0, message: 'password does not match' });

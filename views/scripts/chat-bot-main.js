@@ -143,8 +143,8 @@ $('.chat-content').on('click','.send',function(){
                     textBoxDisplayed = false;
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                    $('.chat-content').animate({
+                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
                 //Display first question and it's options by appending option buttons
                 $.post('/chat/next_question',{'next_question':1},function(data){
     
@@ -152,8 +152,8 @@ $('.chat-content').on('click','.send',function(){
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
-                    $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                    $('.chat-content').animate({
+                        scrollTop: $('.chat-content')[0].scrollHeight}, "slow");
                     $('.optionbtn').fadeOut(400);
                     //Clear previous options
                     $('options').empty();
