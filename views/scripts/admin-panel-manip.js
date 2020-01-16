@@ -39,6 +39,11 @@ $(document).ready(function () {
                 else {
                     displayToast('Error', 'error', 'Something went wrong');
                 }
+            }, error: function (error) {
+                console.log('error');
+                localStorage.removeItem('jwtToken');
+                window.location.replace("http://192.168.0.104:3000/login");
+
             }
         });
     }

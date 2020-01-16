@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "dbStart": "c:\\xampp\\xampp-control.exe",
+    "ServerStart": "nodemon index.js",
+    "start": "run-p ServerStart dbStart"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.17.1",
     "nodemailer": "^6.4.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }

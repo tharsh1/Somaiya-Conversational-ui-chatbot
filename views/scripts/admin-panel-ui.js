@@ -19,6 +19,11 @@ $(document).contextmenu(function(e){
     e.preventDefault();
 });
 
+$('.logout').click(() => {
+    localStorage.removeItem('jwtToken');
+    window.location.replace("http://192.168.0.104:3000/login");
+});
+
 $('body').on('contextmenu','.question-container',function(e){
     e.preventDefault();
     $('#question-menu').css({

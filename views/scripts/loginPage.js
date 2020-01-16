@@ -6,7 +6,16 @@ $('.login_btn').click(function () {
         $.post("/login/authenticateUser", { email, password }, function (response) {
             if (response.code == 1) {
                 localStorage.jwtToken = response.token;
-                window.location.replace("http://192.168.0.104:3000/admin");
+                console.log('done');
+                $('.loader-container').animate({
+                    'z-index':10,
+                    'opacity': 1
+                },100);
+                setTimeout(() => {
+                    window.location.replace("http://192.168.0.104:3000/admin");    
+                } , 1500);
+
+                
             }
             else {
                 $('#error').text('*' + response.message);
